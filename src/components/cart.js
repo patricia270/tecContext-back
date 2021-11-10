@@ -2,9 +2,13 @@ import connection from "../database/database.js";
 import cartSchema from "../schema/cartSchema.js"
 
 async function postCartItem (req,res) {
-    const {product_id, quantity, user_id } = req.body;
+    let {product_id, quantity, user_id } = req.body;
     try {
-        const values = await cartSchema.validateAsync({user_id, product_id, quantity})
+
+        const user = await connection.query(`SELECT * FROM users WHERE id = $1`,[user_id])
+        if (!user.rows[0]) user_id = (req.ip).replace(/^.*:/, '');
+
+        const values = await cartSchema.validateAsync({ product_id, quantity})
     
         const prodResult = await connection.query(`SELECT * FROM products WHERE id = $1`,[product_id]);
         const product = prodResult.rows[0];
@@ -22,4 +26,4 @@ async function postCartItem (req,res) {
     }
 }
 
-export {postCartItem,getCartItems}
+export {postCartItem}
