@@ -2,7 +2,6 @@ import bcrypt from 'bcrypt';
 import connection from '../database/database.js';
 import { signUpSchema } from '../../Validation/Schemes.js';
 
-// eslint-disable-next-line consistent-return
 async function signUp(req, res) {
     const { name, email, password } = req.body;
 
@@ -25,10 +24,10 @@ async function signUp(req, res) {
             [name, email, passwordHash],
         );
 
-        res.sendStatus(201);
+        return res.sendStatus(201);
     } catch (error) {
         console.log(error);
-        res.sendStatus(500);
+        return res.sendStatus(500);
     }
 }
 

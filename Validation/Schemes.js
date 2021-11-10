@@ -5,7 +5,7 @@ const signUpSchema = joi.object({
         .string()
         .min(2)
         .max(100)
-        .pattern(/^[A-Z]+$/i)
+        .pattern(/^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u)
         .required(),
     email: joi
         .string()
