@@ -24,6 +24,7 @@
     "eslint-plugin-jest": "^25.2.4",
     "express": "^4.17.1",
     "joi": "^17.4.2",
+    "jsonwebtoken": "^8.5.1",
     "pg": "^8.7.1",
     "uuid": "^8.3.2"
   },
