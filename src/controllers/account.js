@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import { v4 as uuid } from 'uuid';
+import jwt from 'jsonwebtoken';
 import connection from '../database/database.js';
 import { signUpSchema, signInSchema } from '../../Validation/Schemes.js';
 
@@ -48,14 +48,15 @@ async function signIn(req, res) {
         const user = result.rows[0];
 
         if (user && bcrypt.compareSync(password, user.password)) {
-            const token = uuid();
+            const token = jwt.sign({ id: user.id, name: user.name }, process.env.JWT_SECRET,
+                { expiresIn: 900 });
 
             await connection.query(
                 'INSERT INTO sessions (token, user_id) VALUES ($1, $2);',
                 [token, user.id],
             );
 
-            return res.send({ name: user.name, token });
+            return res.send({ token });
         }
         return res.sendStatus(401);
     } catch (error) {
