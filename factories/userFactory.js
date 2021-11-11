@@ -11,7 +11,7 @@ export default async function createUser() {
         passwordHash: bcrypt.hashSync('12345678', 10),
     };
 
-    connection.query(
+    await connection.query(
         'INSERT INTO users(name, email, password) VALUES ($1, $2, $3)',
         [user.name, user.email, user.passwordHash],
     );
