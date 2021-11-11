@@ -17,10 +17,10 @@ describe('Get /cart/:id', () => {
         expect(result.status).toEqual(200)
     })
 
-    //test('return 200 for successful cart aquisition logged' , async () => {
-    //    const result = await supertest(app).get('/cart')
-    //    expect(result.status).toEqual(200)
-    //})
+    test('return 200 for successful cart aquisition logged' , async () => {
+        const result = await supertest(app).get('/cart/0')
+        expect(result.status).toEqual(200)
+    })
 
     afterAll(async () => {
         await connection.query('DELETE FROM products');

@@ -26,7 +26,7 @@ async function postCartItem (req,res) {
 
 async function getCartItems (req,res) {
     let { id } = req.params;
-
+    
     try {
         const userSession = await connection.query(`SELECT * FROM sessions WHERE user_id = $1`, [String(id)])
         if(!userSession.rows[0]) id = ''
