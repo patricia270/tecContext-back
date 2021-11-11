@@ -40,4 +40,31 @@ async function getCartItems (req,res) {
     }
 }
 
-export {postCartItem, getCartItems}
+async function changeCartItem(req,res) {
+    let { id } = req.params;
+    const { product_id,quantity } = req.body;
+    if (id == 0) {
+        id = ''
+    }else {
+        String(id)
+    }
+    try {
+        if (quantity === 0) {
+            await connection.query(`
+                DELETE FROM cart WHERE product_id = $1 AND user_id = $2
+            `, [product_id,id])
+            return res.sendStatus(201)
+        }
+        await connection.query(`
+            UPDATE cart SET quantity = $1 WHERE product_id = $2 AND user_id = $3`, [quantity, product_id, id])
+
+        return res.sendStatus(201)
+
+    } catch (err){
+        console.log(err)
+        res.sendStatus(err)
+    }
+
+}
+
+export {postCartItem, getCartItems,changeCartItem}
