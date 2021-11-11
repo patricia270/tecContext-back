@@ -25,15 +25,15 @@ async function postCartItem (req,res) {
 }
 
 async function getCartItems (req,res) {
-    const { user_id } = req.params;
+    let { id } = req.params;
+
     try {
-        const userSession = await connection.query(`SELECT * FROM sessions WHERE user_id = $1`, [user_id])
-        if(userSession.rows[0]) return res.sendStatus(404)
-        //Will pass user_id if logged and user ip adress as guest
-        
-        const items = await connection.query(`SELECT * FROM cart WHERE user_id = $1`,[user_id])
+        const userSession = await connection.query(`SELECT * FROM sessions WHERE user_id = $1`, [String(id)])
+        if(!userSession.rows[0]) id = ''
+        //Will pass user_id if logged and '' as guest
+        const items = await connection.query(`SELECT * FROM cart WHERE user_id = $1`,[String(id)])
+
         res.send(items.rows)
-        res.sendStatus(200)
     } catch (err) {
         console.log(err)
         res.sendStatus(400)
