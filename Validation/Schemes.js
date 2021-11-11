@@ -23,4 +23,8 @@ const signInSchema = joi.object({
     password: joi.string().min(8).max(64).required(),
 });
 
-export { signUpSchema, signInSchema };
+const cartSchema = joi.object({
+    quantity: joi.number().min(1)
+})
+
+export { signUpSchema, signInSchema, cartSchema };
