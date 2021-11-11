@@ -8,17 +8,14 @@ export default async function createProduct() {
         stock_qtd: faker.datatype.number(),
         name: faker.commerce.productName(),
         description: faker.commerce.productDescription(),
-        score: parseFloat(faker.datatype.number({
-            "min": 0,
-            "max": 5
-        }))
+        image: faker.image.imageUrl()
     };
 
     try {
         await connection.query(`
-        INSERT INTO products (price,category_id,stock_qtd,name,description,score)
+        INSERT INTO products (price,category_id,stock_qtd,name,description,image)
         VALUES ($1,$2,$3,$4,$5,$6)  
-        `,[prod.price,prod.category_id,prod.stock_qtd,prod.name,prod.description,prod.score])
+        `,[prod.price,prod.category_id,prod.stock_qtd,prod.name,prod.description,prod.image])
     } catch (err) {
         console.log(err)
     }
