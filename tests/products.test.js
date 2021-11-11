@@ -13,7 +13,7 @@ describe('GET /products', () => {
     });
 
     test('return 200 for GET/products', async () => {
-        const result = await supertest(app).get('/products');
+        const result = await supertest(app).post('/products');
         expect(result.status).toEqual(200);
     });
 });
