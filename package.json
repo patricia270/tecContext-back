@@ -6,9 +6,9 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV='prod' node ./src/server.js",
-    "start:dev": "NODE_ENV='dev' node ./src/server.js",
-    "start:test": "node ./src/server.js",
-    "test": "NODE_ENV=test npx jest",
+    "start:dev": "NODE_ENV='dev' npx nodemon ./src/server.js",
+    "start:test": "NODE_ENV='test' node ./src/server.js",
+    "test": "NODE_ENV=test npx jest -i --watchAll",
     "test:watch": "NODE_ENV=test npx jest --watch"
   },
   "keywords": [],

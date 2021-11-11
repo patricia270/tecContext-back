@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+import '../src/setup.js';
 import supertest from 'supertest';
 import createUser from '../factories/userFactory.js';
 import app from '../src/app.js';
