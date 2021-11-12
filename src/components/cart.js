@@ -73,4 +73,38 @@ async function changeCartItem(req, res) {
     }
 }
 
-export { postCartItem, getCartItems, changeCartItem };
+async function purchaseItems(req, res) {
+    const { id } = req.params;
+    const date = new Date();
+    const user = await connection.query('SELECT * FROM sessions WHERE user_id = $1', [id]);
+    if (!user) return res.sendStatus(401);
+    const result = await connection.query('SELECT * FROM cart WHERE user_id = $1', [id]);
+    const cartItems = result.rows;
+    try {
+        cartItems.forEach(async (item) => {
+            await connection.query(`
+            INSERT INTO purchase_hist (user_id,product_id,quantity,date)
+            VALUES ($1,$2,$3,$4)
+            `, [item.user_id, item.product_id, item.quantity, date]);
+
+            const productRes = await connection.query(`
+                SELECT * FROM products WHERE id = $1
+            `, [item.product_id]);
+            const product = productRes.rows[0];
+
+            await connection.query(`
+                UPDATE products SET stock_qtd = $1
+                WHERE product_id = $2
+                AND user_id = $3
+            `, [product.stock_qtd - item.quantity, item.product_id, item.user_id]);
+        });
+
+        return res.sendStatus(201);
+    } catch (err) {
+        return res.sendStatus(400);
+    }
+}
+
+export {
+    postCartItem, getCartItems, changeCartItem, purchaseItems,
+};
