@@ -4,19 +4,20 @@ import connection from '../src/database/database.js';
 
 export default async function createProduct() {
     const prod = {
-        price: parseInt(faker.commerce.price()),
-        discount: faker.datatype.number({
+        price: parseInt(faker.commerce.price(), 10),
+        discount: faker.datatype.float({
             min: 0,
             max: 1,
         }),
-        category_id: 1,
+        category_id: faker.datatype.number({
+            min: 1,
+            max: 7,
+        }),
         stock_qtd: faker.datatype.number(),
         name: faker.commerce.productName(),
         description: faker.commerce.productDescription(),
         image: faker.image.imageUrl(),
     };
-
-    console.log(prod);
 
     try {
         await connection.query(`

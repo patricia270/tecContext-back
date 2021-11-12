@@ -20,7 +20,8 @@
         ], 
     "quotes": "off",
     "prefer-const": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "prefer-default-export": "off"
     },
     "overrides": [
         {

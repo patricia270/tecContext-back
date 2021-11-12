@@ -1,5 +1,3 @@
-/* eslint-disable eqeqeq */
-/* eslint-disable prefer-const */
 /* eslint-disable camelcase */
 import connection from '../database/database.js';
 import { cartSchema } from '../../Validation/Schemes.js';
@@ -43,7 +41,7 @@ async function getCartItems(req, res) {
 async function changeCartItem(req, res) {
     let { id } = req.params;
     const { product_id, quantity } = req.body;
-    if (id == 0) {
+    if (id === 0) {
         id = '';
     } else {
         String(id);
