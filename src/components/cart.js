@@ -1,21 +1,21 @@
-import connection from "../database/database.js";
-import { cartSchema } from "../../Validation/Schemes.js";
+import connection from '../database/database.js';
+import { cartSchema } from '../../Validation/Schemes.js';
 
 async function postCartItem(req, res) {
-    let { product_id, quantity, user_id } = req.body;
+    let { productId, quantity, userId } = req.body;
     try {
-        const userResult = await connection.query(`SELECT * FROM users WHERE id = $1`, [user_id]);
+        const userResult = await connection.query(`SELECT * FROM users WHERE id = $1`, [userId]);
         const user = userResult.rows[0];
-        const prodResult = await connection.query(`SELECT * FROM products WHERE id = $1`, [product_id]);
+        const prodResult = await connection.query(`SELECT * FROM products WHERE id = $1`, [productId]);
         const product = prodResult.rows[0];
         await cartSchema.validateAsync({ quantity });
 
         if (!product) return res.sendStatus(401);
-        if (!user) user_id = '';
+        if (!user) userId = '';
         // eslint-disable-next-line radix
         if (product.stock_qtd < parseInt(quantity)) return res.sendStatus(400);
 
-        await connection.query(`INSERT INTO cart (user_id,product_id,quantity) VALUES ($1,$2,$3)`, [user_id, product_id, quantity]);
+        await connection.query(`INSERT INTO cart (user_id,product_id,quantity) VALUES ($1,$2,$3)`, [userId, productId, quantity]);
 
         res.sendStatus(201);
     } catch (err) {
@@ -42,7 +42,7 @@ async function getCartItems(req, res) {
 
 async function changeCartItem(req, res) {
     let { id } = req.params;
-    const { product_id, quantity } = req.body;
+    const { productId, quantity } = req.body;
     if (id === 0) {
         id = '';
     } else {
@@ -52,11 +52,11 @@ async function changeCartItem(req, res) {
         if (quantity === 0) {
             await connection.query(`
                 DELETE FROM cart WHERE product_id = $1 AND user_id = $2
-            `, [product_id, id]);
+            `, [productId, id]);
             return res.sendStatus(201);
         }
         await connection.query(`
-            UPDATE cart SET quantity = $1 WHERE product_id = $2 AND user_id = $3`, [quantity, product_id, id]);
+            UPDATE cart SET quantity = $1 WHERE product_id = $2 AND user_id = $3`, [quantity, productId, id]);
 
         return res.sendStatus(201);
     } catch (err) {
