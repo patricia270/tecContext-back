@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import '../src/setup.js';
 import supertest from 'supertest';
 import connection from '../src/database/database.js';
@@ -46,8 +47,8 @@ describe('POST /cart', () => {
     afterAll(async () => {
         await connection.query('DELETE FROM products');
         await connection.query('DELETE FROM users');
-        await connection.query('ALTER SEQUENCE products_id_seq RESTART WITH 1')
-        await connection.query('ALTER SEQUENCE users_id_seq RESTART WITH 1')
+        await connection.query('ALTER SEQUENCE products_id_seq RESTART WITH 1');
+        await connection.query('ALTER SEQUENCE users_id_seq RESTART WITH 1');
         connection.end();
     });
 });

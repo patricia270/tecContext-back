@@ -1,3 +1,6 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable prefer-const */
+/* eslint-disable camelcase */
 import connection from '../database/database.js';
 import { cartSchema } from '../../Validation/Schemes.js';
 
@@ -26,9 +29,9 @@ async function getCartItems(req, res) {
     let { id } = req.params;
 
     try {
-        const userSession = await connection.query('SELECT * FROM sessions WHERE user_id = $1', [String(id)])
+        const userSession = await connection.query('SELECT * FROM sessions WHERE user_id = $1', [String(id)]);
         if (!userSession.rows[0]) id = 0;
-        //Will pass user_id if logged and '' as guest
+        // Will pass user_id if logged and '' as guest
         const items = await connection.query('SELECT * FROM cart WHERE user_id = $1', [String(id)]);
 
         res.send(items.rows);
@@ -49,7 +52,7 @@ async function changeCartItem(req, res) {
         if (quantity === 0) {
             await connection.query(`
                 DELETE FROM cart WHERE product_id = $1 AND user_id = $2
-            `, [product_id, id])ç
+            `, [product_id, id]);
             return res.sendStatus(201);
         }
         await connection.query(`
@@ -63,5 +66,4 @@ async function changeCartItem(req, res) {
     }
 }
 
-
-export {postCartItem, getCartItems,changeCartItem}
+export { postCartItem, getCartItems, changeCartItem };
