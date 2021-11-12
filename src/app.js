@@ -1,7 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import { signIn, signUp } from './controllers/account.js';
-import { postCartItem } from './components/cart.js'
+import { postCartItem } from './components/cart.js';
+import { getProductInfo } from './controllers/product.js';
 
 const app = express();
 
@@ -11,6 +12,8 @@ app.use(cors());
 app.post('/sign-up', signUp);
 app.post('/sign-in', signIn);
 
-app.post('/cart', postCartItem)
+app.post('/cart', postCartItem);
+
+app.get('/product/:id', getProductInfo);
 
 export default app;
