@@ -12,7 +12,9 @@ describe('POST /SIGN-UP', () => {
         await connection.query('DELETE FROM users');
     });
 
-    afterAll(() => {
+    afterAll(async () => {
+        await connection.query('DELETE FROM users');
+        await connection.query(`ALTER SEQUENCE users_id_seq RESTART WITH 1`);
         connection.end();
     });
 

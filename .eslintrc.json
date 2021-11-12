@@ -18,7 +18,10 @@
 	"indent": [
             "error", 4, { "ignoredNodes": ["ConditionalExpression"] }
         ], 
-    "quotes":"off"
+    "quotes": "off",
+    "camelcase": "off",
+    "prefer-const": "off",
+    "consistent-return": "off"
     },
     "overrides": [
         {
