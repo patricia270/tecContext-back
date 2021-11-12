@@ -6,30 +6,22 @@ import app from '../src/app.js';
 import createUser from '../factories/userFactory.js';
 import createProduct from '../factories/productFactory.js';
 
-describe('PUT /cart/:id', () => {
+describe('POST /cart/:id', () => {
     beforeEach(async () => {
         await createUser();
         await createProduct();
     });
 
-    test('Return 201 if item updates', async () => {
-        const result = await supertest(app).put('/cart/1')
-            .send({
-                product_id: 1,
-                quantity: 8,
-            });
+    test('Return 201 if successful', async () => {
+        const result = await supertest(app).post('/cart/1');
 
         expect(result.status).toEqual(201);
     });
 
-    test('Return 201 if item Deleted', async () => {
-        const result = await supertest(app).put('/cart/0')
-            .send({
-                product_id: 1,
-                quantity: 0,
-            });
+    test('Return 401 if user not logged', async () => {
+        const result = await supertest(app).post('/cart/1000');
 
-        expect(result.status).toEqual(201);
+        expect(result.status).toEqual(401);
     });
 
     afterAll(async () => {

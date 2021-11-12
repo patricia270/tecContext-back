@@ -12,11 +12,14 @@ async function postCartItem(req, res) {
         const prodResult = await connection.query('SELECT * FROM products WHERE id = $1', [product_id]);
         const product = prodResult.rows[0];
         await cartSchema.validateAsync({ quantity });
-
+        console.log(user);
         if (!product) return res.sendStatus(401);
-        if (!user) user_id = '';
+        if (!user) {
+            user_id = '';
+        } else {
+            String(user_id);
+        }
         if (product.stock_qtd < parseInt(quantity, 10)) return res.sendStatus(400);
-
         await connection.query('INSERT INTO cart (user_id,product_id,quantity) VALUES ($1,$2,$3)', [user_id, product_id, quantity]);
 
         return res.sendStatus(201);
@@ -77,7 +80,7 @@ async function purchaseItems(req, res) {
     const { id } = req.params;
     const date = new Date();
     const user = await connection.query('SELECT * FROM sessions WHERE user_id = $1', [id]);
-    if (!user) return res.sendStatus(401);
+    if (!user.rows[0]) return res.sendStatus(401);
     const result = await connection.query('SELECT * FROM cart WHERE user_id = $1', [id]);
     const cartItems = result.rows;
     try {
@@ -86,7 +89,6 @@ async function purchaseItems(req, res) {
             INSERT INTO purchase_hist (user_id,product_id,quantity,date)
             VALUES ($1,$2,$3,$4)
             `, [item.user_id, item.product_id, item.quantity, date]);
-
             const productRes = await connection.query(`
                 SELECT * FROM products WHERE id = $1
             `, [item.product_id]);
@@ -94,9 +96,8 @@ async function purchaseItems(req, res) {
 
             await connection.query(`
                 UPDATE products SET stock_qtd = $1
-                WHERE product_id = $2
-                AND user_id = $3
-            `, [product.stock_qtd - item.quantity, item.product_id, item.user_id]);
+                WHERE id = $2
+            `, [product.stock_qtd - item.quantity, item.product_id]);
         });
 
         return res.sendStatus(201);
