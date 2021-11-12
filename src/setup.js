@@ -9,7 +9,6 @@ if (process.env.NODE_ENV === 'dev') {
     path = '.env.dev';
 }
 
-
 dotenv.config({
     path,
 });
