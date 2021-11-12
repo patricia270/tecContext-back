@@ -24,4 +24,47 @@ async function postCartItem (req,res) {
     }
 }
 
-export {postCartItem}
+async function getCartItems (req,res) {
+    let { id } = req.params;
+
+    try {
+        const userSession = await connection.query(`SELECT * FROM sessions WHERE user_id = $1`, [String(id)])
+        if(!userSession.rows[0]) id = 0
+        //Will pass user_id if logged and '' as guest
+        const items = await connection.query(`SELECT * FROM cart WHERE user_id = $1`,[String(id)])
+
+        res.send(items.rows)
+    } catch (err) {
+        console.log(err)
+        res.sendStatus(400)
+    }
+}
+
+async function changeCartItem(req,res) {
+    let { id } = req.params;
+    const { product_id,quantity } = req.body;
+    if (id == 0) {
+        id = ''
+    }else {
+        String(id)
+    }
+    try {
+        if (quantity === 0) {
+            await connection.query(`
+                DELETE FROM cart WHERE product_id = $1 AND user_id = $2
+            `, [product_id,id])
+            return res.sendStatus(201)
+        }
+        await connection.query(`
+            UPDATE cart SET quantity = $1 WHERE product_id = $2 AND user_id = $3`, [quantity, product_id, id])
+
+        return res.sendStatus(201)
+
+    } catch (err){
+        console.log(err)
+        res.sendStatus(err)
+    }
+
+}
+
+export {postCartItem, getCartItems,changeCartItem}
