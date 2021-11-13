@@ -4,6 +4,7 @@ import { signIn, signUp } from './controllers/account.js';
 import { getProducts, getProductsByCategory, getPromotionsProducts } from './controllers/products.js';
 import { getCartItems, postCartItem, changeCartItem } from './components/cart.js';
 import getCategories from './controllers/categories.js';
+import { getProductInfo } from './controllers/product.js';
 
 const app = express();
 
@@ -22,5 +23,7 @@ app.get('/promotions', getPromotionsProducts);
 app.post('/cart', postCartItem);
 app.put('/cart/:id', changeCartItem);
 app.get('/cart/:id', getCartItems);
+
+app.get('/product/:id', getProductInfo);
 
 export default app;

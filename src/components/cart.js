@@ -48,9 +48,11 @@ async function changeCartItem(req, res) {
     }
     try {
         if (quantity === 0) {
-            await connection.query(`
+            await connection.query(
+                `
                 DELETE FROM cart WHERE product_id = $1 AND user_id = $2
-            `, [product_id, id]);
+            `, [product_id, id],
+            );
             return res.sendStatus(201);
         }
         await connection.query(`
