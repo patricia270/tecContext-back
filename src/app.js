@@ -1,8 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import { signIn, signUp } from './controllers/account.js';
-import { getProducts, getPromotionsProducts } from './controllers/products.js';
+import { getProducts, getProductsByCategory, getPromotionsProducts } from './controllers/products.js';
 import { getCartItems, postCartItem, changeCartItem } from './components/cart.js';
+import getCategories from './controllers/categories.js';
 
 const app = express();
 
@@ -12,7 +13,10 @@ app.use(cors());
 app.post('/sign-up', signUp);
 app.post('/sign-in', signIn);
 
+app.get('/categories', getCategories);
+
 app.get('/products', getProducts);
+app.get('/categories/:categoryId', getProductsByCategory);
 app.get('/promotions', getPromotionsProducts);
 
 app.post('/cart', postCartItem);
