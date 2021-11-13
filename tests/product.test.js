@@ -7,6 +7,10 @@ import createProduct from '../factories/productFactory.js';
 
 const productId = 1;
 
+beforeAll(async () => {
+    await connection.query('DELETE FROM products');
+});
+
 afterAll(async () => {
     await connection.query('DELETE FROM products');
     await connection.query('ALTER SEQUENCE products_id_seq RESTART WITH 1');

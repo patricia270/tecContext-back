@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { signIn, signUp } from './controllers/account.js';
-import { getCartItems, postCartItem, changeCartItem } from './components/cart.js'
+import { getCartItems, postCartItem, changeCartItem } from './components/cart.js';
 import { getProductInfo } from './controllers/product.js';
 
 const app = express();
