@@ -65,5 +65,4 @@ async function signIn(req, res) {
     }
 }
 
-// eslint-disable-next-line import/prefer-default-export
 export { signUp, signIn };

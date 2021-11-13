@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import '../src/setup.js';
 import supertest from 'supertest';
 import createUser from '../factories/userFactory.js';
@@ -15,7 +14,7 @@ describe('POST /SIGN-UP', () => {
 
     afterAll(async () => {
         await connection.query('DELETE FROM users');
-        await connection.query(`ALTER SEQUENCE users_id_seq RESTART WITH 1`)
+        await connection.query(`ALTER SEQUENCE users_id_seq RESTART WITH 1`);
         connection.end();
     });
 
