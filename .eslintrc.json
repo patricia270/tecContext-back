@@ -17,6 +17,18 @@
         ],  
 	"indent": [
             "error", 4, { "ignoredNodes": ["ConditionalExpression"] }
-        ]  
-    }
+        ], 
+    "quotes": "off",
+    "prefer-const": "off",
+    "consistent-return": "off",
+    "prefer-default-export": "off"
+    },
+    "overrides": [
+        {
+         "files": ["*test.js"],
+            "rules": {
+               "no-undef": "off"   
+            }
+        }
+    ]
 }
