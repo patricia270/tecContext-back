@@ -9,9 +9,6 @@ let databaseConfig = ({
     port: process.env.DB_PORT,
     database: process.env.DB_DATABASE,
     connectionString: process.env.DATABASE_URL,
-    ssl: {
-        rejectUnauthorized: false,
-    },
 });
 
 if (process.env.NODE_ENV === 'prod') {
