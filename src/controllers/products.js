@@ -39,6 +39,7 @@ async function getPromotionsProducts(req, resp) {
         `);
         resp.send(result.rows);
     } catch (error) {
+        console.log(error);
         resp.sendStatus(500);
     }
 }
